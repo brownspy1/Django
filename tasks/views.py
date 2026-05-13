@@ -7,3 +7,6 @@ def add_task(request):
     return HttpResponse('Task added')
 def show_spacific_task(request,id):
     return HttpResponse(f'this is id : {id}')
+
+def dashbord(request):
+    return HttpResponse("Dashbord")
