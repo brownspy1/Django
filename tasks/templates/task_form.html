@@ -4,20 +4,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add task</title>
-    <link rel="stylesheet" href=" {% static "css/main.css" %} ">
+    <title>Create New Task | TaskManager</title>
+    <!-- Tailwind main css -->
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Custom hide styling for native checkbox */
+        .custom-checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Interactive selection states */
+        .custom-checkbox-wrapper input[type="checkbox"]:checked ~ .check-indicator {
+            background-color: #f43f5e; /* bg-rose-500 */
+            border-color: #f43f5e;
+        }
+        
+        .custom-checkbox-wrapper input[type="checkbox"]:checked ~ .check-indicator svg {
+            transform: scale(1);
+        }
+        
+        .custom-checkbox-wrapper input[type="checkbox"]:checked ~ .bg-glow {
+            opacity: 1;
+            border-color: #f43f5e;
+        }
+        
+        .custom-checkbox-wrapper input[type="checkbox"]:checked ~ div .choice-label {
+            color: #0f172a; /* text-slate-900 */
+        }
+
+        .custom-checkbox-wrapper {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .custom-checkbox-wrapper:active {
+            transform: scale(0.98);
+        }
+
+        /* Subtle page animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
 </head>
-<body>
-    {% if message %}
-    <p>{{message}}</p>
-    {% endif %}
-    <div class="w-1/2 mx-auto mt-10">
-        <form  method="POST">
-        {% csrf_token %}
-        {{TaskForms}}
-        {{TaskDetailsForm}}
-        <button type="submit" class="px-5 py-3 mt-3 bg-rose-500 rounded-md">Submit</button>
-    </form>
+<body class="bg-gray-100 antialiased py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
+
+    <!-- Centered Form Card -->
+    <div class="max-w-3xl mx-auto bg-white border border-gray-200 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 p-6 sm:p-10 animate-fade-in">
+        
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-8 pb-6 border-b border-slate-100">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-rose-500 flex items-center justify-center text-white shadow-lg shadow-rose-500/25">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Create New Task</h1>
+                    <p class="text-sm text-slate-500 mt-0.5">Define task parameters, assign team members, and track status</p>
+                </div>
+            </div>
+            <a href="javascript:history.back()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                Back
+            </a>
+        </div>
+
+        <!-- Status Banner Messages -->
+        {% if message %}
+        <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-3 animate-fade-in">
+            <div class="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.74-5.24Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-emerald-800">Task Successfully Created</h4>
+                <p class="text-xs text-emerald-600 mt-0.5">{{message}}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Task Title -->
+            <div>
+                <label for="{{ TaskForms.title.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    </svg>
+                    Task Title
+                </label>
+                {{ TaskForms.title }}
+                {% if TaskForms.title.errors %}
+                    <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskForms.title.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Parameters Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Status -->
+                <div>
+                    <label for="{{ TaskForms.status.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Status
+                    </label>
+                    {{ TaskForms.status }}
+                    {% if TaskForms.status.errors %}
+                        <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskForms.status.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Due Date -->
+                <div>
+                    <label for="{{ TaskForms.due_date.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                        </svg>
+                        Due Date
+                    </label>
+                    {{ TaskForms.due_date }}
+                    {% if TaskForms.due_date.errors %}
+                        <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskForms.due_date.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Priority -->
+                <div>
+                    <label for="{{ TaskDetailsForm.priority.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-5.593-1.913M3 15V9m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732V11m-12-7.5l.08.04a9 9 0 006.086.71l3.114-.732A48.524 48.524 0 0118 8.25" />
+                        </svg>
+                        Priority
+                    </label>
+                    {{ TaskDetailsForm.priority }}
+                    {% if TaskDetailsForm.priority.errors %}
+                        <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskDetailsForm.priority.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label for="{{ TaskForms.description.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                    </svg>
+                    Description
+                </label>
+                {{ TaskForms.description }}
+                {% if TaskForms.description.errors %}
+                    <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskForms.description.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Team Assignment (Custom style select multiple checkboxes) -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                    Assign Team Members
+                </label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    {% for checkbox in TaskDetailsForm.assigned_to %}
+                        <label class="custom-checkbox-wrapper relative flex items-center gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 hover:border-slate-300 transition-all duration-200 select-none">
+                            {{ checkbox.tag }}
+                            
+                            <!-- Check indicator -->
+                            <div class="check-indicator w-5 h-5 flex items-center justify-center rounded-lg border border-slate-300 bg-white transition-all duration-200 z-10 flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5 text-white scale-0 transition-transform duration-200">
+                                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+
+                            <!-- Avatar initials with dynamic colorful gradient based on name character code -->
+                            <div class="avatar w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white uppercase shadow-sm bg-gradient-to-br from-slate-400 to-slate-500 z-10 flex-shrink-0" id="avatar-{{ checkbox.id_for_label }}">
+                                {{ checkbox.choice_label|slice:":2" }}
+                            </div>
+
+                            <!-- Name -->
+                            <div class="flex flex-col z-10 min-w-0">
+                                <span class="choice-label text-sm font-semibold text-slate-700 transition-colors duration-200 truncate">{{ checkbox.choice_label }}</span>
+                                <span class="text-[10px] text-slate-400">Employee</span>
+                            </div>
+                            
+                            <!-- Background glow -->
+                            <div class="bg-glow absolute inset-0 bg-rose-500/[0.03] border-2 border-rose-500/0 rounded-2xl opacity-0 transition-all duration-200 pointer-events-none"></div>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if TaskDetailsForm.assigned_to.errors %}
+                    <p class="text-xs text-rose-500 mt-1.5 font-medium">{{ TaskDetailsForm.assigned_to.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100">
+                <a href="javascript:history.back()" class="px-5 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200 cursor-pointer">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-semibold text-sm shadow-lg shadow-rose-500/25 transition-all duration-200 transform active:scale-95 cursor-pointer">
+                    Create Task
+                </button>
+            </div>
+        </form>
     </div>
+
+    <!-- Footer Copyright -->
+    <footer class="py-12 text-center text-xs text-slate-400">
+        &copy; 2026 TaskManager. All rights reserved.
+    </footer>
+
+    <!-- Tailwind compilation safelist triggers for avatar background gradients and forms.py styles -->
+    <!-- 
+      from-indigo-500 to-blue-500
+      from-rose-500 to-pink-500
+      from-emerald-500 to-teal-500
+      from-amber-500 to-orange-500
+      from-violet-500 to-purple-500
+      from-cyan-500 to-blue-500
+      from-fuchsia-500 to-pink-500
+      
+      w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 transition-all duration-200 outline-none cursor-pointer
+      px-3 py-2 rounded-lg focus:border-rose-400 focus:ring-rose-500
+    -->
+
+    <!-- Avatar Dynamic Background Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const gradients = [
+                'from-indigo-500 to-blue-500',
+                'from-rose-500 to-pink-500',
+                'from-emerald-500 to-teal-500',
+                'from-amber-500 to-orange-500',
+                'from-violet-500 to-purple-500',
+                'from-cyan-500 to-blue-500',
+                'from-fuchsia-500 to-pink-500'
+            ];
+            
+            document.querySelectorAll("[id^='avatar-']").forEach((avatar) => {
+                // Get name initials
+                const text = avatar.textContent.trim();
+                // Hash the initials to choose a deterministic color gradient
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) {
+                    hash = text.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                const gradientIndex = Math.abs(hash) % gradients.length;
+                const chosenGradient = gradients[gradientIndex];
+                
+                // Swap the fallback slate classes for the selected gradient
+                avatar.classList.remove('from-slate-400', 'to-slate-500');
+                chosenGradient.split(' ').forEach(cls => avatar.classList.add(cls));
+            });
+        });
+    </script>
 </body>
 </html>
