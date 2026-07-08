@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add task</title>
-    <link rel="stylesheet" href=" {% static "css/main.css" %} ">
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
 </head>
 <body>
     {% if message %}
@@ -14,8 +14,8 @@
     <div class="w-1/2 mx-auto mt-10">
         <form  method="POST">
         {% csrf_token %}
-        {{TaskForms}}
-        {{TaskDetailsForm}}
+        {{TaskForms.as_p}}
+        {{TaskDetailsForm.as_p}}
         <button type="submit" class="px-5 py-3 mt-3 bg-rose-500 rounded-md">Submit</button>
     </form>
     </div>
