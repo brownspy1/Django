@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests</title>
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+</head>
+<body>
+        {% for name in names %}
+            {% if not name == "mahadi" %}
+                <span class="text-xl  bg-gray-300 rounded-sm p-2 mt-2">
+                    {{name}}
+                </span> <br>
+            {% endif %}
+        {% endfor %}
+        
+</body>
+</html>

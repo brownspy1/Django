@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add task</title>
+    <link rel="stylesheet" href=" {% static "css/main.css" %} ">
+</head>
+<body>
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
+    <div class="w-1/2 mx-auto mt-10">
+        <form  method="POST">
+        {% csrf_token %}
+        {{TaskForms}}
+        {{TaskDetailsForm}}
+        <button type="submit" class="px-5 py-3 mt-3 bg-rose-500 rounded-md">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
