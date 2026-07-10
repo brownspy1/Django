@@ -1,0 +1,314 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║          GIT BASIC COMMANDS — REFERENCE GUIDE               ║
+║               উদাহরণসহ সম্পূর্ণ গাইড (বাংলায়)             ║
+╚══════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. SETUP — প্রথমবার Git কনফিগার করো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  git config --global user.name "Tomar Naam"
+  git config --global user.email "tomar@email.com"
+
+  ► বর্তমান config দেখো:
+  git config --list
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2. INIT / CLONE — নতুন প্রজেক্ট শুরু
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► নতুন repo তৈরি করো (local):
+  git init
+
+  ► GitHub থেকে প্রজেক্ট নামিয়ে আনো:
+  git clone https://github.com/username/repo-name.git
+
+  Example:
+  git clone https://github.com/brownspy1/Django.git
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3. STATUS / LOG — কী হচ্ছে দেখো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► পরিবর্তনের অবস্থা দেখো:
+  git status
+
+  ► Commit ইতিহাস দেখো:
+  git log
+
+  ► সংক্ষিপ্ত (একলাইনে) দেখো:
+  git log --oneline
+
+  ► শেষ ৫টা commit দেখো:
+  git log --oneline -5
+
+  ► কোন file কী পরিবর্তন হয়েছে দেখো:
+  git diff
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  4. ADD — পরিবর্তন stage করো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► নির্দিষ্ট একটি file যোগ করো:
+  git add filename.py
+
+  Example:
+  git add tasks/views.py
+
+  ► সব পরিবর্তন একসাথে যোগ করো:
+  git add .
+
+  ► Stage হয়েছে কিনা দেখো:
+  git diff --staged
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  5. COMMIT — পরিবর্তন সংরক্ষণ করো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► Commit করো:
+  git commit -m "তোমার message"
+
+  ┌─ Conventional Commit Format ──────────────────────────────┐
+  │  git commit -m "type(scope): description"                 │
+  │                                                           │
+  │  type গুলো:                                              │
+  │   feat     → নতুন feature যোগ                            │
+  │   fix      → Bug সমাধান                                  │
+  │   docs     → Documentation পরিবর্তন                      │
+  │   style    → Code formatting (logic পরিবর্তন নয়)        │
+  │   refactor → Code restructure                            │
+  │   test     → Test যোগ/পরিবর্তন                          │
+  │   chore    → Build tool, dependency update               │
+  └───────────────────────────────────────────────────────────┘
+
+  Examples:
+  git commit -m "feat(tasks): add task creation form"
+  git commit -m "fix(auth): fix login redirect bug"
+  git commit -m "docs: update README with setup steps"
+  git commit -m "style(css): improve button hover effect"
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  6. BRANCH — শাখা তৈরি ও ব্যবস্থাপনা
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► সব local branch দেখো:
+  git branch
+
+  ► সব branch দেখো (local + remote):
+  git branch -a
+
+  ► নতুন branch তৈরি করো:
+  git branch branch-name
+
+  Example:
+  git branch feature/user-login
+
+  ► নতুন branch তৈরি করো এবং সেখানে যাও:
+  git checkout -b branch-name
+
+  Example:
+  git checkout -b feature/new-dashboard
+
+  ► অন্য branch এ যাও (switch):
+  git checkout branch-name
+
+  Example:
+  git checkout main
+
+  ► Branch delete করো (merge হওয়ার পর):
+  git branch -d branch-name
+
+  Example:
+  git branch -d feature/user-login
+
+  ► Branch force delete করো (merge না হলেও):
+  git branch -D branch-name
+
+  ► Remote branch delete করো:
+  git push origin --delete branch-name
+
+  Example:
+  git push origin --delete feature/old-feature
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  7. MERGE — শাখা একত্রিত করো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► প্রথমে যে branch এ merge করবে সেখানে যাও:
+  git checkout main
+
+  ► তারপর merge করো:
+  git merge branch-name
+
+  Example:
+  git checkout main
+  git merge feature/new-dashboard
+
+  ► Conflict হলে সমাধানের ধাপ:
+     1. Conflict file গুলো editor এ খোলো
+     2. <<<<<<< HEAD ও >>>>>>> branch-name চিহ্নিত করো
+     3. সঠিক code রেখে marker গুলো মুছে দাও
+     4. তারপর:
+        git add .
+        git commit -m "fix: resolve merge conflicts"
+
+  ► Merge বাতিল করতে:
+  git merge --abort
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  8. PUSH — Remote এ পাঠাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► Local commits remote এ পাঠাও:
+  git push origin branch-name
+
+  Examples:
+  git push origin main
+  git push origin feature/new-dashboard
+
+  ► প্রথমবার push করলে (upstream set করো):
+  git push -u origin branch-name
+
+  Example:
+  git push -u origin feature/user-profile
+
+  ► Force push করো (সাবধানে ব্যবহার করো!):
+  git push origin branch-name --force
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  9. PULL — Remote থেকে আনো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► Remote এর latest changes নিয়ে আসো:
+  git pull origin branch-name
+
+  Example:
+  git pull origin main
+
+  ► Fetch only (merge ছাড়া শুধু দেখো):
+  git fetch origin
+
+  ► Remote এর কী নতুন আছে দেখো:
+  git fetch && git log HEAD..origin/main --oneline
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  10. UNDO — ভুল ঠিক করো
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► Staged file unstage করো:
+  git restore --staged filename.py
+
+  ► File এর uncommitted changes বাতিল করো:
+  git restore filename.py
+
+  ► শেষ commit undo করো (changes রেখে):
+  git reset --soft HEAD~1
+
+  ► শেষ commit ও changes দুটোই বাতিল করো:
+  git reset --hard HEAD~1
+
+  ► নির্দিষ্ট commit এ ফিরে যাও:
+  git reset --hard commit-hash
+
+  Example:
+  git reset --hard e476317
+
+  ► Public commit revert করো (নিরাপদ উপায়):
+  git revert commit-hash
+
+  Example:
+  git revert a1b2c3d
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  11. STASH — অস্থায়ীভাবে সংরক্ষণ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► বর্তমান uncommitted changes সাময়িক save করো:
+  git stash
+
+  ► Stash list দেখো:
+  git stash list
+
+  ► সর্বশেষ stash ফিরিয়ে আনো:
+  git stash pop
+
+  ► নির্দিষ্ট stash ফিরিয়ে আনো:
+  git stash apply stash@{0}
+
+  ► Stash delete করো:
+  git stash drop stash@{0}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  12. REMOTE — Remote Repository ব্যবস্থাপনা
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ► Remote দেখো:
+  git remote -v
+
+  ► নতুন remote যোগ করো:
+  git remote add origin https://github.com/username/repo.git
+
+  ► Remote URL পরিবর্তন করো:
+  git remote set-url origin https://github.com/newuser/newrepo.git
+
+  ► Remote সরিয়ে দাও:
+  git remote remove origin
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ★  FULL WORKFLOW — সম্পূর্ণ কাজের ধারা
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌─ Step 1: নতুন feature branch তৈরি করো ───────────────────┐
+  │                                                           │
+  │  git checkout main                                        │
+  │  git pull origin main                                     │
+  │  git checkout -b feature/my-feature                       │
+  │                                                           │
+  └───────────────────────────────────────────────────────────┘
+
+  ┌─ Step 2: কাজ করো এবং commit করো ─────────────────────────┐
+  │                                                           │
+  │  git add .                                                │
+  │  git commit -m "feat(module): add new feature"            │
+  │                                                           │
+  └───────────────────────────────────────────────────────────┘
+
+  ┌─ Step 3: Remote এ push করো ───────────────────────────────┐
+  │                                                           │
+  │  git push -u origin feature/my-feature                    │
+  │                                                           │
+  └───────────────────────────────────────────────────────────┘
+
+  ┌─ Step 4: Main এ merge করো ────────────────────────────────┐
+  │                                                           │
+  │  git checkout main                                        │
+  │  git merge feature/my-feature                             │
+  │  git push origin main                                     │
+  │                                                           │
+  └───────────────────────────────────────────────────────────┘
+
+  ┌─ Step 5: Branch পরিষ্কার করো ─────────────────────────────┐
+  │                                                           │
+  │  git branch -d feature/my-feature                         │
+  │  git push origin --delete feature/my-feature              │
+  │                                                           │
+  └───────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════╗
+║     Django Project | Git Commands Reference Guide           ║
+║     Created: 2026-07-10                                     ║
+╚══════════════════════════════════════════════════════════════╝
