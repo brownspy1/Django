@@ -55,7 +55,7 @@ class StyleFormMixin:
             elif isinstance(field.widget , forms.Select):
                 field.widget.attrs.update(
                     {
-                         'class': "w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 transition-all duration-200 outline-none cursor-pointer"
+                         'class': "w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 transition-all duration-200"
                     }
                 )
             
