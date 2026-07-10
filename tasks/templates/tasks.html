@@ -5,22 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href=" {% static "css/main.css" %} ">
+    {% comment %} <link rel="stylesheet" href=" {% static "css/main.css" %} "> {% endcomment %}
 </head>
 <body>
     <div>
-        <ol>
-            {% for task in tasks%}
-                <li>{{task}}
-                    <span class="bg-green-400 border-2 border-none rounded-md ml-2 p-1">{{task.project}}</span>
+        <ol> 
+
+            {% comment %} {% for task in tasks %}
+                <li>{{task.title}}</li>
+                <p>{{task.status}}</p>
+            {% endfor %} {% endcomment %}
+
+
+            {% comment %} {% for project in projects%}
+                <li>{{project}} <br>
+                    <ul>
+                        {% for task in project.tasks.all %}
+                            <li>{{task}}</li>
+                        {% endfor %}
+                    </ul>
+                    {% comment %} <span class="bg-green-400 border-2 border-none rounded-md ml-2 p-1">{{task.project}}</span> {% endcomment %}
                     {% comment %} {% if task.is_completed %} 
                         <span class="bg-green-400 border-2 border-none rounded-md ml-2 p-1">completed</span> 
                     {% else %} 
                         <span class="bg-red-500 border-2  border-none rounded-md ml-2 p-1">Not completed</span>
                     {% endif %}  {% endcomment %}
                 </li>
-            {% endfor %}
+            {% comment %} {% endfor %}  {% endcomment %}
+            
         </ol>
+
+        {% comment %} <ol>
+            {% for task in tasks %}
+                <li>{{task.title}}</li>
+                <ol>
+                    {% for emp in task.details.assigned_to.all %}
+                        <li>{{emp}}</li>
+                    {% endfor %}
+                </ol>
+            {% endfor %}
+        </ol> {% endcomment %}
+
+      
+         <ul>
+            {% for task in tasks %}
+            <li>{{task.title}}</li>
+            {% endfor %}
+         </ul>
         
     </div>
 </body>

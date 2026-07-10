@@ -6,7 +6,6 @@ class Task(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     due_date = models.DateField()
-    is_completed = models.BooleanField(default=False)
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
         ('IN_PROGRESS', 'In Progress'),
