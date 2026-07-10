@@ -94,5 +94,5 @@ def show_task(request):
     # tasks = Task.objects.annotate(employye_count = Count('details__assigned_to')).order_by('employye_count') #ordar by desanding
 
     # tasks = Task.objects.filter(due_date='2026-07-11')
-    tasks = Task.objects.select_related('details').exclude(priority='L').all()
+    tasks = Task.objects.select_related('details').exclude(details__priority='L').all()
     return render(request,'tasks.html',{'tasks':tasks})
