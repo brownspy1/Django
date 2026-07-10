@@ -60,6 +60,12 @@ INTERNAL_IPS = [
 ] 
 ROOT_URLCONF = 'taskManegment.urls'
 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

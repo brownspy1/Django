@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from tasks.forms import TaskForm,TaskForm,TaskDetailsForm
+from tasks.forms import TaskForm,TaskDetailsForm
 from django.http import JsonResponse
 from tasks.models import Employee,Task,TaskDetail
 # Create your views here.
