@@ -6,7 +6,6 @@ class Task(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     due_date = models.DateField()
-    is_completed = models.BooleanField(default=False)
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
         ('IN_PROGRESS', 'In Progress'),
@@ -40,7 +39,6 @@ class Project(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True,null=True)
     start_at = models.DateTimeField(auto_now_add=True)
-    description = models.TextField()
 
     def __str__(self):
         return self.name
