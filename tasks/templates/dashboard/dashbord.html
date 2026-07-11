@@ -127,11 +127,18 @@
         </div>
         </a>
     </div>
-    
+    {% if messages %}
+        {% for message in messages %}
+            <div class=" {% if message.tags == 'success'%} bg-green-400 {% else %} bg-rose-500 {%endif%}  rounded-md ">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
     {% block tasks %}
     
     {% endblock tasks %}
 
+    
 </body>
 
 </html>

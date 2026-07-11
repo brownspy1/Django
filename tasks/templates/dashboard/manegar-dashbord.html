@@ -14,16 +14,21 @@
         {% for task in tasks %}
             <div class="divide-y divide-solid divide-gray-100">
             <div class="grid grid-cols-4 border-b border-gray-200 p-4 gap-4">
-
                 <div class="text-gray-500 font-bold flex items-center gap-2">
-
-                   
                     <div class="h-2 w-2 {% if task.details.get_priority_display == 'Low' %} bg-green-500 
                         {% elif task.details.get_priority_display == 'Medium'%}  bg-yellow-500 
                         {% else %}  bg-red-500 {% endif %} rounded-full">
                     </div>
+                    <div class="">
+                        <span>{{task.title}}</span>
+                    </div>
 
-                    <div class=""><span>{{task.title}}</span></div>
+                        <a href='{% url "updateTask" task.id %}' class='px-4 text-white py-1 bg-green-500 rounded-md'>Edit</a> 
+                        <form action='{% url "deleteTask" task.id %}' method="POST">
+                            {% csrf_token %}
+                            <button class='px-4 text-white py-1 bg-rose-600 rounded-md' type="submit">Delate</button>
+                        </form>
+                        
                 </div>
                     <div> 
                         <span  class="{% if task.details.get_priority_display == 'Low' %}text-blue-500 bg-blue-100
@@ -46,7 +51,8 @@
                         
                     </div>
                 </div>
-                <div class="text-gray-500">{{task.created_at|timesince}}</div>
+                <div class="text-gray-500">{{task.created_at|timesince}} </div>
+              
             </div>
         </div>
         {% endfor %} 
