@@ -43,7 +43,7 @@ class StyleFormMixin:
                 field.widget.attrs.update(
                     {
                         'class':self.defultStyleClass,
-                        'placeholder':f'Enter {field_name.lower().replace("_", " ")} details...',
+                        'placeholder':f'Enter {field_name.lower().replace("_", " ")} in details...',
                         'rows':4
                     }
                 )
@@ -96,10 +96,11 @@ class TaskForm(StyleFormMixin,forms.ModelForm):
 class TaskDetailsForm(StyleFormMixin,forms.ModelForm):
     class Meta:
         model = TaskDetail
-        fields = ['assigned_to','priority']
+        fields = ['assigned_to','priority','notes']
         widgets = {
             'assigned_to':forms.CheckboxSelectMultiple(),
-            'priority':forms.Select()
+            'priority':forms.Select(),
+            'notes':forms.Textarea()
         }
         # mathod ragulason order Or MRO systemm e calld
     def __init__(self ,*args, **kwargs):

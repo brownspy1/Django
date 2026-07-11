@@ -5,13 +5,41 @@ from django.http import JsonResponse
 from tasks.models import Employee,Task,TaskDetail,Project
 from django.db.models import Q,Max,Min,Avg,Count
 from datetime import date
+from django.contrib import messages
 # Create your views here.
+def manager_dashboard(request):
+    # Base Queri
+    BASE_QUERY = Task.objects.select_related('details').prefetch_related('details__assigned_to')
+
+    type = request.GET.get('type','all')
+
+    # Counting for dashbord
+    count = Task.objects.aggregate(
+        total = Count('id'),
+        completed_task = Count('id',filter=Q(status='COMPLETED')),
+        task_InProgress = Count('id',filter=Q(status='IN_PROGRESS')),
+        incomplete_task = Count('id',filter=Q(status='PENDING'))
+        )
+    
+    # rendar task depend on cliking total/completed/in progress/or todos
+    if type == "completed":
+        tasks = BASE_QUERY.filter(status="COMPLETED")
+    elif type == "InProgress":
+        tasks = BASE_QUERY.filter(status="IN_PROGRESS")
+    elif type == "incomplete":
+        tasks = BASE_QUERY.filter(status="PENDING")
+    elif type == "all":
+        tasks = BASE_QUERY.all()
+
+    context = {
+        'tasks':tasks,
+        'count':count
+    }
+
+    return render(request,'dashboard/manegar-dashbord.html',context)
 
 def user_dashboard(request):
     return render(request,'dashboard/user-dashbord.html')
-
-def manegar_dashboard(request):
-    return render(request,'dashboard/manegar-dashbord.html')
 
 def test(request):
     context = {
@@ -36,8 +64,8 @@ def add_task(request):
             task_details.taskToDetails = task
             task_details.save()
             form2.save_m2m()
-            
-            return render(request,'task_form.html',{"TaskForms":form,"TaskDetailsForm":form2,'message':'Data added on database!'})
+            messages.success(request,'Task Added Successfully!')
+            return redirect('createTask')
            
             # This data for Django form
             # {'title': 'Demo task', 'description': 'this is tasks', 'due_date': datetime.date(2026, 8, 17), 'assigned_to': ['1']}

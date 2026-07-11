@@ -32,11 +32,12 @@
     <!-- card section  -->
     <div class="pt-10 grid grid-cols-4 gap-6 pb-8">
         <!-- card 01 -->
+        <a href="{% url "ManagerDashboard" %}?type=all">
         <div class="flex justify-between items-center p-6 bg-white rounded-xl shadow-sm hover:shadow-xl">
             <!-- left section -->
             <div class="flex flex-col gap-2">
                 <h1>TOTAL TASK</h3>
-                    <h1 class="text-2xl font-bold">3</h1>
+                    <h1 class="text-2xl font-bold">{{count.total}}</h1>
                     <h1 class="text-gray-500">1 last month</h4>
             </div>
             <!-- Right section -->
@@ -55,12 +56,14 @@
                 </button>
             </div>
         </div>
+        </a>
         <!-- card 02 -->
+         <a href="{% url "ManagerDashboard" %}?type=completed">
         <div class="flex justify-between items-center p-6 bg-white rounded-xl shadow-sm hover:shadow-xl">
             <!-- left section -->
             <div class="flex flex-col gap-2">
                 <h1 class="text-gray-500">COMPLETED TASK</h3>
-                    <h1 class="text-2xl font-bold">7</h1>
+                    <h1 class="text-2xl font-bold">{{count.completed_task}}</h1>
                     <h1 class="text-gray-500">1 last month</h4>
             </div>
             <!-- Right section -->
@@ -76,12 +79,14 @@
                 </button>
             </div>
         </div>
+        </a>
         <!-- card 03 -->
+         <a href="{% url "ManagerDashboard" %}?type=InProgress">
         <div class="flex justify-between items-center p-6 bg-white rounded-xl shadow-sm hover:shadow-xl">
             <!-- left section -->
             <div class="flex flex-col gap-2">
                 <h1 class="text-gray-500">TASK IN PROGRESS</h3>
-                    <h1 class="text-2xl font-bold">21</h1>
+                    <h1 class="text-2xl font-bold">{{count.task_InProgress}}</h1>
                     <h1 class="text-gray-500">1 last month</h4>
             </div>
             <!-- Right section -->
@@ -97,12 +102,14 @@
                 </button>
             </div>
         </div>
+        </a>
         <!-- card 04 -->
+         <a href="{% url "ManagerDashboard" %}?type=incomplete">
         <div class="flex justify-between items-center p-6 bg-white rounded-xl shadow-sm hover:shadow-xl">
             <!-- left section -->
             <div class="flex flex-col gap-2">
                 <h1 class="text-gray-500">TODOS</h3>
-                    <h1 class="text-2xl font-bold">78</h1>
+                    <h1 class="text-2xl font-bold">{{count.incomplete_task}}</h1>
                     <h1 class="text-gray-500">1 last month</h4>
             </div>
             <!-- Right section -->
@@ -118,6 +125,7 @@
                 </button>
             </div>
         </div>
+        </a>
     </div>
     
     {% block tasks %}

@@ -10,8 +10,10 @@
 <body>
     <div class="w-1/2 mx-auto mt-8">
         <div>
-            {% if message %}
-                <p>{{message}}</p>
+            {% if messages %}
+                {% for message in messages %}
+                <div class=" {% if message.tags == 'success'%} bg-green-400 {%endif%} rounded-md ">{{message}}</div>
+                {% endfor %}
             {% endif %}
         </div>
         <form method="POST">
