@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Task(models.Model):
     project = models.ForeignKey("Project", on_delete=models.CASCADE, default=1, related_name="tasks")
     title = models.CharField(max_length=250)
